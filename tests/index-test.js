@@ -8,16 +8,13 @@ describe('Component', () => {
   let node
 
   beforeEach(() => {
-    node = document.createElement('div')
+    // node = document.createElement('div')
   })
 
   afterEach(() => {
-    unmountComponentAtNode(node)
+    // unmountComponentAtNode(node)
   })
 
-  it('displays a welcome message', () => {
-    render(<Component/>, node, () => {
-      expect(node.innerHTML).toContain('Welcome to React components')
-    })
-  })
+  // it ...
+
 })
