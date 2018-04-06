@@ -69,7 +69,7 @@ const setCoverBgColor = (ref,props) => {
 const setCover = (ref, props) => {
   const { coverBg } = props
   isLink(coverBg) ? setCoverImg(ref, props) 
-                       : setCoverBgColor(ref, props)
+                  : setCoverBgColor(ref, props)
 }
 
 /**
@@ -86,10 +86,29 @@ const drawCircle = (ref, x, y, size) => {
   ctx.fill()
 }
 
+/**
+ * @public compute the ratio in canvas
+ * @param {*} ref 
+ * @param {*} props 
+ */
+const computeRatio = (ref, props) => {
+  const { width, height } = props,
+        pixels = getContext2d(ref).getImageData(0, 0, width, height),
+        transPixels = []
+  pixels.data.forEach((item, i) => {
+    const pixel = pixels.data[i + 3]
+    if (pixel === 0) {
+        transPixels.push(pixel)
+    }
+  })
+  return transPixels.length / pixels.data.length
+}
+
 export {
   getBg,
   getContext2d,
   setSize,
   setCover,
-  drawCircle
+  drawCircle,
+  computeRatio
 }

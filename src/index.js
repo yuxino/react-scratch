@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import t from 'prop-types'
-import { getBg, getContext2d, setSize, setCover, drawCircle } from './utils'
+import { getBg, getContext2d, setSize, setCover, drawCircle, computeRatio } from './utils'
 
 export default class ReactScratch extends Component {
   
@@ -18,20 +18,25 @@ export default class ReactScratch extends Component {
   }
 
   onLoosen () {
+    const node = this.canvasRef.current,
+          { ratio, callback } = this.props,
+          _ratio = computeRatio(node, this.props)
+    if (_ratio >= ratio) { callback() }
     this.setState({ pressed: false })
   }
 
   onMove (e) {
     const { pressed } = this.state
     if (pressed) {
-      const { ratioSize } = this.props,
+      const node = this.canvasRef.current,
+            { ratioSize } = this.props,
             left = e.target.offsetLeft,
             top = e.target.offsetTop,
             pageX = e.pageX || e.targetTouches[0].pageX,
             pageY = e.pageY || e.targetTouches[0].pageY,
             x = pageX - left - ratioSize / 2, 
             y = pageY - top  - ratioSize / 2
-      drawCircle(this.canvasRef.current, x, y, ratioSize)
+      drawCircle(node, x, y, ratioSize)
     }
   }
 
