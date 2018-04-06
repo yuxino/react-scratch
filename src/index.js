@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import t from 'prop-types'
-import { getBg, getContext2d, setSize, setCover } from './utils'
+import { getBg, getContext2d, setSize, setCover, drawCircle } from './utils'
 
 export default class ReactScratch extends Component {
   
@@ -15,18 +15,23 @@ export default class ReactScratch extends Component {
 
   onPressed () {
     this.setState({ pressed: true })
-    console.log('pressed')
   }
 
   onLoosen () {
     this.setState({ pressed: false })
-    console.log('loosen')
   }
 
   onMove (e) {
     const { pressed } = this.state
     if (pressed) {
-      // 递归算出变局
+      const { ratioSize } = this.props,
+            left = e.target.offsetLeft,
+            top = e.target.offsetTop,
+            pageX = e.pageX || e.targetTouches[0].pageX,
+            pageY = e.pageY || e.targetTouches[0].pageY,
+            x = pageX - left - ratioSize / 2, 
+            y = pageY - top  - ratioSize / 2
+      drawCircle(this.canvasRef.current, x, y, ratioSize)
     }
   }
 
@@ -39,14 +44,16 @@ export default class ReactScratch extends Component {
   render () {
     return (
       <canvas style={{
-                      border: '1px solid black',
                       background: getBg(this.props),
                       backgroundSize: 'cover'
                     }}
               onMouseDown={this.onPressed}
               onMouseUp={this.onLoosen}
               onMouseMove={this.onMove}
-              ref={this.canvasRef} />   
+              onTouchStart={this.onPressed}
+              onTouchEnd={this.onLoosen}
+              onTouchMove={this.onMove}
+              ref={this.canvasRef} />
     )
   }
 }
