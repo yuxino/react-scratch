@@ -15,3 +15,4 @@ What a simple component ~
 [coveralls-badge]: https://img.shields.io/coveralls/Nbsaw/react-scratch/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/Nbsaw/repo
 
+[制作过程](https://github.com/Nbsaw/notes/issues/51)
